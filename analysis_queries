@@ -1,0 +1,25 @@
+-- Total Sales per Month
+SELECT DATE_FORMAT(order_date, '%Y-%m') AS month, SUM(total_amount) AS total_sales
+FROM orders
+GROUP BY month
+ORDER BY month;
+
+-- Top Products Sold
+SELECT p.product_name, SUM(oi.quantity) AS total_sold
+FROM products p
+JOIN order_items oi ON p.product_id = oi.product_id
+GROUP BY p.product_name
+ORDER BY total_sold DESC;
+
+-- Country-wise Sales
+SELECT c.country, SUM(o.total_amount) AS total_sales
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.country;
+
+-- High-Value Customers
+SELECT c.name, SUM(o.total_amount) AS total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+ORDER BY total_spent DESC;
